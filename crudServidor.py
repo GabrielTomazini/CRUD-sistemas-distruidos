@@ -3,16 +3,7 @@ from bd import Banco
 
 
 def processar_insercao(conexao, banco):
-    """
-    Formato do pacote de inserção (requisição):
-      - 1 byte: opcode (valor 1)
-      - 1 byte: tamanho do nome (nNome)
-      - nNome bytes: nome
-      - 1 byte: idade
-      - 1 byte: tamanho do endereço (nEnd)
-      - nEnd bytes: endereço
-      - 8 bytes: CEP
-    """
+
     try:
         # Recebe o tamanho do nome:
         tam_nome_byte = conexao.recv(1)
@@ -60,21 +51,7 @@ def processar_insercao(conexao, banco):
 
 
 def processar_busca(conexao, banco):
-    """
-    Formato do pacote de busca (requisição):
-      - 1 byte: opcode (valor 2)
-      - 1 byte: id do registro buscado
-    Formato da resposta (sucesso):
-      - 1 byte: opcode (valor 1)
-      - 1 byte: id do registro
-      - 1 byte: tamanho do nome (nNome)
-      - nNome bytes: nome
-      - 1 byte: idade
-      - 1 byte: tamanho do endereço (nEnd)
-      - nEnd bytes: endereço
-      - 8 bytes: CEP
-    Em caso de erro (registro não encontrado), envia 1 byte com opcode 6.
-    """
+
     try:
         # Recebe o id de busca:
         id_byte = conexao.recv(1)
