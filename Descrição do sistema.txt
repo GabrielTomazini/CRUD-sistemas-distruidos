@@ -1,0 +1,57 @@
+Integrantes:
+
+Gabriel Tomazini Marani
+Pedro Augusto Senger Piana
+
+O sistema é um cadastro de personagens de RPG, estamos utilizando cinco atributos:
+
+-Id;
+-Nome;
+-Classe;
+-Espécie;
+-Nível;
+
+A descrição dos bits e dos OP codes se encontra no código.
+
+Utilizamos sql lite.
+
+**INSERÇÃO** 
+
+formato da mensagem:
+b'\x01\x08Giovanni\x08Cl\xc3\xa9rigo\x06Humano\x04'
+(OPCODE, tam_nome, nome, tam_classe, classe, tam_especie, especie, Nível)
+
+formato da resposta:
+b'\x01\x04' 
+( OPCODE, ID da inserção )
+
+**BUSCA**
+formato da mensagem:
+b'\x02\x04'
+(OPCODE,ID)
+
+formato da resposta:
+b'\x01\x04\x08Giovanni\x08Cl\xc3\xa9rigo\x06Humano\x04'
+(SUCESSO OU FALHA, id_registro, tam_nome,nome,tam_classe,classe, tam_especie, especie, Nível)
+
+**ATUALIZAÇÃO**
+
+formato da mensagem:
+b'\x03\x04\x00\x05Bruxo\x00\x05'
+(OP_CODE, ID, tam_nome,nome,tam_classe,classe, tam_especie, especie, Nível)
+OBS:. no caso de \x00 isso indica None, ele irá repetir o valor atual para uma
+atualização total ( Query que mandamos no banco atualiza tudo, mas daí com o mesmo
+valor do anterior )
+
+formato da resposta:
+b'\x01\x04\x08Giovanni\x05Bruxo\x06Humano\x05'
+(SUCESSO_OU_FALHA, id_registro, tam_nome,nome,tam_classe,classe, tam_especie, especie, Nível )
+
+**REMOÇÃO**
+
+formato da mensagem:
+b'\x04\x04'
+(OP_CODE, ID)
+
+formato a resposta:
+(OP_CODE, ID)

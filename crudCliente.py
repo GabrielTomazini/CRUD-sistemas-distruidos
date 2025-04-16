@@ -65,7 +65,7 @@ while opcao != 5:
             msg = msg + len(classe.encode()).to_bytes(1, "big") + classe.encode()
             msg = msg + len(especie.encode()).to_bytes(1, "big") + especie.encode()
             msg = msg + nivel.to_bytes(1, "big")
-            print("Mensagem final é: ", msg, "\n")
+            print("Mensagem Inserção: ", msg, "\n")
             cliente.send(msg)
             opcode = cliente.recv(1)
             id = cliente.recv(1)
@@ -74,6 +74,7 @@ while opcao != 5:
         case 2:
             id = int(input("Digite id de busca: "))
             msg = opcao.to_bytes(1, "big") + id.to_bytes(1, "big")
+            print("Mensagem Busca: ", msg, "\n")
             cliente.send(msg)
             opcode = cliente.recv(1)
             opcode = int.from_bytes(opcode, "big")
@@ -122,6 +123,7 @@ while opcao != 5:
             msg += len(classe.encode()).to_bytes(1, "big") + classe.encode()
             msg += len(especie.encode()).to_bytes(1, "big") + especie.encode()
             msg += nivel.to_bytes(1, "big")
+            print("Mensagem Atualização: ", msg, "\n")
             cliente.send(msg)
             opcode_resp = int.from_bytes(cliente.recv(1), "big")
             if opcode_resp == 6:
@@ -142,6 +144,7 @@ while opcao != 5:
             # Remover
             id = int(input("Digite o id para remover: "))
             msg = opcao.to_bytes(1, "big") + id.to_bytes(1, "big")
+            print("Mensagem Remoção: ", msg, "\n")
             cliente.send(msg)
             opcode_resp = int.from_bytes(cliente.recv(1), "big")
             if opcode_resp == 6:

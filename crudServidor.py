@@ -50,6 +50,7 @@ def processar_insercao(conexao, banco):
         # Prepara a resposta:
         # Resposta de inserção: 1 byte opcode (valor 1) + 1 byte para o id inserido (sinalizado)
         resposta = (1).to_bytes(1, "big") + id_inserido.to_bytes(1, "big", signed=True)
+        print("Resposta Inserção:", resposta, "\n")
         conexao.send(resposta)
     except Exception as e:
         print("Erro ao processar inserção:", e)
@@ -90,7 +91,7 @@ def processar_busca(conexao, banco):
             # O registro retornado é uma tupla: (id, nome, classe, especie, nivel)
             id_reg, nome, classe, especie, nivel = registro
 
-            # Codifica nome e endereço:
+            # Codifica nome, classe, especie
             nome_enc = nome.encode()
             classe_enc = classe.encode()
             especie_enc = especie.encode()
@@ -102,7 +103,7 @@ def processar_busca(conexao, banco):
             resposta += len(classe_enc).to_bytes(1, "big") + classe_enc
             resposta += len(especie_enc).to_bytes(1, "big") + especie_enc
             resposta += nivel.to_bytes(1, "big")
-            print("A resposta é: ", resposta)
+            print("Resposta Busca:", resposta, "\n")
             conexao.send(resposta)
     except Exception as e:
         print("Erro ao processar busca:", e)
@@ -155,6 +156,7 @@ def processar_atualizacao(conexao, banco):
             resposta += len(classe_enc).to_bytes(1, "big") + classe_enc
             resposta += len(especie_enc).to_bytes(1, "big") + especie_enc
             resposta += nivel_reg.to_bytes(1, "big")
+            print("Resposta Atualização:", resposta, "\n")
             conexao.send(resposta)
     except Exception as e:
         print("Erro ao processar atualização:", e)
@@ -179,6 +181,7 @@ def processar_remocao(conexao, banco):
         sucesso = banco.remover(id_remover)
         if sucesso:
             resposta = (4).to_bytes(1, "big") + id_remover.to_bytes(1, "big")
+            print("Resposta Remoção:", resposta, "\n")
             conexao.send(resposta)
         else:
             conexao.send((6).to_bytes(1, "big"))
